@@ -5,9 +5,15 @@
 import Foundation
 import Alamofire
 
+enum UiModel {
+    case loading
+    case content([Cocktail])
+}
+
 final class CocktailsViewModel: ObservableObject {
 
-    @Published var searchResult: [Cocktail] = []
+
+    @Published var state: UiModel = UiModel.loading
     @Published var query: String = ""
 
     init() {
@@ -15,7 +21,7 @@ final class CocktailsViewModel: ObservableObject {
     }
 
     func fetchCocktails() {
-        print("Fetch \(SelectedFilterStorage.shared.get().tagIds)")
+        state = UiModel.loading
         let parameters: Parameters = [
             "query": query,
             "limit": 20,
@@ -33,8 +39,8 @@ final class CocktailsViewModel: ObservableObject {
                     guard let value = response.value else {
                         fatalError("guard failure handling has not been implemented")
                     }
-                    self.searchResult = value.cocktails
-                    print("updates \(self.searchResult)")
+
+                    self.state = UiModel.content(value.cocktails)
                 }
     }
 }

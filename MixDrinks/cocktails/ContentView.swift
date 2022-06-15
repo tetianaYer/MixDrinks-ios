@@ -35,10 +35,16 @@ struct ContentView: View {
             }
                     .padding(.horizontal)
 
-            ScrollView {
-                ForEach(viewModel.searchResult) { cocktail in
-                    CocktailCard(cocktail: cocktail)
+
+            switch viewModel.state {
+            case .content(let cocktails):
+                ScrollView {
+                    ForEach(cocktails) { cocktail in
+                        CocktailCard(cocktail: cocktail)
+                    }
                 }
+            case .loading:
+                ProgressView()
             }
         }
     }
