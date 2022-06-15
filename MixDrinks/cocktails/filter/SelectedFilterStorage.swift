@@ -31,11 +31,16 @@ class SelectedFilterStorage {
         callbacks.append(callback)
     }
 
+    func get() -> SelectedFilters {
+        SelectedFilters(tagIds: tagIds, toolId: toolIds, goodId: goodIds)
+    }
+
     private func notify() {
         callbacks.forEach { (closure: (SelectedFilters) -> ()) in
             closure(SelectedFilters(tagIds: tagIds, toolId: toolIds, goodId: goodIds))
         }
     }
+
 }
 
 struct SelectedFilters {

@@ -12,7 +12,6 @@ class FilterDataRepository {
     private var callbacks: [(MetaResponse) -> Void] = []
 
     private init() {
-        print("init data repository")
         AF.request("https://api.mixdrinks.org/meta/all")
                 .responseDecodable(of: MetaResponse.self) { response in
                     guard let value = response.value else {

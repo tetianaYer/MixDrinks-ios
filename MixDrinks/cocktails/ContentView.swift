@@ -10,33 +10,33 @@ import SwiftUI
 
 struct ContentView: View {
 
-    @EnvironmentObject var cocktailsViewModel: CocktailsViewModel
+    @EnvironmentObject var viewModel: CocktailsViewModel
 
     @State private var showingFilter = false
 
     var body: some View {
         VStack(spacing: 30) {
             HStack {
-                TextField("Search", text: $cocktailsViewModel.query)
+                TextField("Search", text: $viewModel.query)
                         .font(.body)
                         .padding()
                         .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.2662717301)))
                         .cornerRadius(20)
-                        .onChange(of: cocktailsViewModel.query) { text in
-                            cocktailsViewModel.fetchCocktails()
+                        .onChange(of: viewModel.query) { text in
+                            viewModel.fetchCocktails()
                         }
 
                 Button(action: { showingFilter.toggle() }) {
                     Image(systemName: "line.3.horizontal.decrease.circle")
                 }
-                        .sheet(isPresented: $showingFilter) {
+                        .sheet(isPresented: $showingFilter, onDismiss: { viewModel.fetchCocktails() }) {
                             FilterView()
                         }
             }
                     .padding(.horizontal)
 
             ScrollView {
-                ForEach(cocktailsViewModel.searchResult) { cocktail in
+                ForEach(viewModel.searchResult) { cocktail in
                     CocktailCard(cocktail: cocktail)
                 }
             }
