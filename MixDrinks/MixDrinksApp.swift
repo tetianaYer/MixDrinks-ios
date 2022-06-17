@@ -12,12 +12,16 @@ import SwiftUI
 struct MixDrinksApp: App {
     var cocktailsViewModel = CocktailsViewModel()
     var filterViewModel = FilterViewModel()
+    var cocktailDetailViewModel = CocktailDetailsViewModel(
+            cocktailDetailsAggregator: CocktailDetailsAggregator()
+    )
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CocktailsView()
                     .environmentObject(cocktailsViewModel)
                     .environmentObject(filterViewModel)
+                    .environmentObject(cocktailDetailViewModel)
         }
     }
 }
