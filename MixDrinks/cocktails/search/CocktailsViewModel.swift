@@ -30,6 +30,10 @@ final class CocktailsViewModel: ObservableObject {
             "tags": selectedFilterStorage.get().tagIds.map { item in
                         String(item)
                     }
+                    .joined(separator: ","),
+            "goods": selectedFilterStorage.get().goodId.map { id in
+                        String(id)
+                    }
                     .joined(separator: ",")
         ]
 

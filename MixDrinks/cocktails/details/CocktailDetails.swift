@@ -60,7 +60,7 @@ struct CocktailDetailContent: View {
                     .frame(width: .infinity)
 
             ForEach(cocktail.steps) { element in
-                HStack(spacing: 10) {
+                HStack(spacing: 8) {
                     Text("\(element.id)")
                             .padding(8)
                             .background(.green)

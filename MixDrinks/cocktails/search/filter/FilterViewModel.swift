@@ -8,9 +8,11 @@ final class FilterViewModel: ObservableObject {
 
     private var selectedFilterStorage: SelectedFilterStorage
 
-    @Published var tagUiModels: [TagUiModel] = []
+    @Published var tagUiModels: [FilterItemUiModel] = []
+    @Published var goodUiModels: [FilterItemUiModel] = []
 
     private var tags: [FilterItem] = []
+    private var goods: [FilterItem] = []
 
     private var selected: SelectedFilters = SelectedFilters(tagIds: [], toolId: [], goodId: [])
 
@@ -22,6 +24,7 @@ final class FilterViewModel: ObservableObject {
 
         filterDataRepository.addCallback { metaInfo in
             self.tags = metaInfo.tags
+            self.goods = metaInfo.goods
             self.updateUi()
         }
 
@@ -32,11 +35,19 @@ final class FilterViewModel: ObservableObject {
     }
 
     private func updateUi() {
-        tagUiModels = tags.map { filterItem in
-            TagUiModel(
-                    id: filterItem.id,
-                    name: filterItem.name,
-                    isSelected: selected.tagIds.contains(filterItem.id)
+        tagUiModels = tags.map { tag in
+            FilterItemUiModel(
+                    id: tag.id,
+                    name: tag.name,
+                    isSelected: selected.tagIds.contains(tag.id)
+            )
+        }
+
+        goodUiModels = goods.map { goods in
+            FilterItemUiModel(
+                    id: goods.id,
+                    name: goods.name,
+                    isSelected: selected.goodId.contains(goods.id)
             )
         }
     }
@@ -44,9 +55,13 @@ final class FilterViewModel: ObservableObject {
     func tagClick(tagId: Int) {
         selectedFilterStorage.tagChange(id: tagId)
     }
+
+    func goodClick(goodId: Int) {
+        selectedFilterStorage.goodChange(id: goodId)
+    }
 }
 
-struct TagUiModel: Identifiable, Decodable {
+struct FilterItemUiModel: Identifiable, Decodable {
     var id: Int
     var name: String
     var isSelected: Bool

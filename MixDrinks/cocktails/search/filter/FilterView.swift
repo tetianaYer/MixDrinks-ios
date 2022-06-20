@@ -10,10 +10,38 @@ struct FilterView: View {
 
     var body: some View {
         ScrollView {
-            VStack {
-                Text("Фільт")
-                        .font(.body)
+            LazyVStack {
+                Text("Фільтр")
+                        .font(.headline)
                         .padding(.vertical)
+
+                Text("Інгрідієнти")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                        .font(.subheadline)
+                        .padding(.horizontal)
+
+                ForEach(filterViewModel.goodUiModels) { good in
+                    HStack {
+                        Toggle(good.name, isOn: .init(
+                                get: {
+                                    good.isSelected
+                                },
+                                set: { state in
+                                    filterViewModel.goodClick(goodId: good.id)
+                                }
+                        ))
+                                .toggleStyle(CheckBoxToggleStyle.checkbox)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal)
+                    }
+                            .padding(.vertical)
+                }
+
+                Text("Інше")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                        .font(.subheadline)
+                        .padding(.horizontal)
+
                 ForEach(filterViewModel.tagUiModels) { tag in
                     HStack {
                         Toggle(tag.name, isOn: .init(

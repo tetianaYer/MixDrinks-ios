@@ -23,6 +23,17 @@ class SelectedFilterStorage {
         notify()
     }
 
+    func goodChange(id: Int) {
+        if (goodIds.contains(id)) {
+            goodIds.removeAll { existId in
+                existId == id
+            }
+        } else {
+            goodIds.append(id)
+        }
+        notify()
+    }
+
     func addCallback(callback: @escaping (SelectedFilters) -> Void) {
         callbacks.append(callback)
     }
