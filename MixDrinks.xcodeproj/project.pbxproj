@@ -21,7 +21,7 @@
 		55C87C2810A40937A75EB9B2 /* CocktailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C87857941915B632ED49C8 /* CocktailsView.swift */; };
 		55C87C6BAB2E816BD11F7D2D /* CocktailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C87C9DCE38350360F90EF9 /* CocktailsViewModel.swift */; };
 		55C87CEB767F87C6CC1B2216 /* MixDrinksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C8781BC270E8CE8EB336F9 /* MixDrinksUITests.swift */; };
-		55C87D292C2C4AA1CF16003A /* ReadMe.md in Sources */ = {isa = PBXBuildFile; fileRef = 55C878E91EA6B3C7DEF6EBB9 /* ReadMe.md */; };
+		55C87D292C2C4AA1CF16003A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 55C878E91EA6B3C7DEF6EBB9 /* README.md */; };
 		55C87D7198A34B2387B3D029 /* CocktailDetailsAggregator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C87CD60AF66B3975717F00 /* CocktailDetailsAggregator.swift */; };
 		55C87F1F5406A18AA87987A0 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C879FA5CD08BB00949A4F1 /* FilterView.swift */; };
 		55C87F597C315DCAA7369C3E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55C87F7ED89E359D1CB0A02A /* Preview Assets.xcassets */; };
@@ -56,7 +56,7 @@
 		55C876011C7333292CE33464 /* MixDrinksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixDrinksTests.swift; sourceTree = "<group>"; };
 		55C8781BC270E8CE8EB336F9 /* MixDrinksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixDrinksUITests.swift; sourceTree = "<group>"; };
 		55C87857941915B632ED49C8 /* CocktailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CocktailsView.swift; path = cocktails/search/CocktailsView.swift; sourceTree = "<group>"; };
-		55C878E91EA6B3C7DEF6EBB9 /* ReadMe.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
+		55C878E91EA6B3C7DEF6EBB9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		55C87932030998AD2B855D64 /* FilterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterViewModel.swift; path = cocktails/search/filter/FilterViewModel.swift; sourceTree = "<group>"; };
 		55C879FA5CD08BB00949A4F1 /* FilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterView.swift; path = cocktails/search/filter/FilterView.swift; sourceTree = "<group>"; };
 		55C87A1482AD079077158FC1 /* SelectedFilterStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectedFilterStorage.swift; path = cocktails/search/filter/SelectedFilterStorage.swift; sourceTree = "<group>"; };
@@ -158,7 +158,7 @@
 				55C8709A61BBEE0B799EA36A /* MixDrinks */,
 				55C87868B9F658990A3C9701 /* MixDrinksTests */,
 				55C872B02B02F0F40B575D5E /* MixDrinksUITests */,
-				55C878E91EA6B3C7DEF6EBB9 /* ReadMe.md */,
+				55C878E91EA6B3C7DEF6EBB9 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -299,7 +299,7 @@
 				55C878E46640994F22D049AF /* CocktailDetails.swift in Sources */,
 				55C879361D1997BFA0B6C956 /* CoctailDetailViewModel.swift in Sources */,
 				55C87D7198A34B2387B3D029 /* CocktailDetailsAggregator.swift in Sources */,
-				55C87D292C2C4AA1CF16003A /* ReadMe.md in Sources */,
+				55C87D292C2C4AA1CF16003A /* README.md in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
