@@ -10,8 +10,24 @@ import SwiftUI
 
 @main
 struct MixDrinksApp: App {
-    var cocktailsViewModel = CocktailsViewModel()
-    var filterViewModel = FilterViewModel()
+
+    var selectedFilterStorage: SelectedFilterStorage
+    var cocktailsViewModel: CocktailsViewModel
+    var filterViewModel: FilterViewModel
+
+    init() {
+        selectedFilterStorage = SelectedFilterStorage()
+
+        cocktailsViewModel = CocktailsViewModel(
+                selectedFilterStorage: selectedFilterStorage
+        )
+
+        filterViewModel = FilterViewModel(
+                filterDataRepository: FilterDataRepository(),
+                selectedFilterStorage: selectedFilterStorage
+        )
+    }
+
     var cocktailDetailViewModel = CocktailDetailsViewModel(
             cocktailDetailsAggregator: CocktailDetailsAggregator()
     )

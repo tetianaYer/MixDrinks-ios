@@ -6,31 +6,43 @@ import Foundation
 
 final class FilterViewModel: ObservableObject {
 
+    private var selectedFilterStorage: SelectedFilterStorage
+
     @Published var tagUiModels: [TagUiModel] = []
 
-    private var tags: [Int: String] = [:]
+    private var tags: [FilterItem] = []
 
     private var selected: SelectedFilters = SelectedFilters(tagIds: [], toolId: [], goodId: [])
 
-    public init() {
-        FilterDataRepository.shared.addCallback { metaInfo in
+    public init(
+            filterDataRepository: FilterDataRepository,
+            selectedFilterStorage: SelectedFilterStorage
+    ) {
+        self.selectedFilterStorage = selectedFilterStorage
+
+        filterDataRepository.addCallback { metaInfo in
             self.tags = metaInfo.tags
             self.updateUi()
         }
-        SelectedFilterStorage.shared.addCallback { filters in
+
+        self.selectedFilterStorage.addCallback { filters in
             self.selected = filters
             self.updateUi()
         }
     }
 
     private func updateUi() {
-        tagUiModels = tags.map { key, value in
-            TagUiModel(id: key, name: value, isSelected: selected.tagIds.contains(key))
+        tagUiModels = tags.map { filterItem in
+            TagUiModel(
+                    id: filterItem.id,
+                    name: filterItem.name,
+                    isSelected: selected.tagIds.contains(filterItem.id)
+            )
         }
     }
 
     func tagClick(tagId: Int) {
-        SelectedFilterStorage.shared.tagChange(id: tagId)
+        selectedFilterStorage.tagChange(id: tagId)
     }
 }
 

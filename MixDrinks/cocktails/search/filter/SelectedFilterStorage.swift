@@ -5,16 +5,12 @@
 import Foundation
 
 class SelectedFilterStorage {
-    static let shared = SelectedFilterStorage()
 
     private var tagIds: [Int] = []
     private var toolIds: [Int] = []
     private var goodIds: [Int] = []
 
     private var callbacks: [(SelectedFilters) -> Void] = []
-
-    private init() {
-    }
 
     func tagChange(id: Int) {
         if (tagIds.contains(id)) {

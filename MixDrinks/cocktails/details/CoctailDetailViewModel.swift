@@ -50,5 +50,4 @@ final class CocktailDetailsViewModel: ObservableObject {
             return step
         }
     }
-
 }

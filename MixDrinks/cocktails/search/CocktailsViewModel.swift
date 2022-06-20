@@ -12,11 +12,13 @@ enum CocktailListUiModel {
 
 final class CocktailsViewModel: ObservableObject {
 
-
     @Published var state: CocktailListUiModel = CocktailListUiModel.loading
     @Published var query: String = ""
 
-    init() {
+    private var selectedFilterStorage: SelectedFilterStorage
+
+    init(selectedFilterStorage: SelectedFilterStorage) {
+        self.selectedFilterStorage = selectedFilterStorage
         fetchCocktails()
     }
 
@@ -25,7 +27,7 @@ final class CocktailsViewModel: ObservableObject {
         let parameters: Parameters = [
             "query": query,
             "limit": 20,
-            "tags": SelectedFilterStorage.shared.get().tagIds.map { item in
+            "tags": selectedFilterStorage.get().tagIds.map { item in
                         String(item)
                     }
                     .joined(separator: ",")

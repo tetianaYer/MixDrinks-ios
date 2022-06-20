@@ -7,30 +7,39 @@ import Alamofire
 
 class FilterDataRepository {
 
-    static let shared = FilterDataRepository()
+    private var callbacks: [(FiltersResponse) -> Void] = []
 
-    private var callbacks: [(MetaResponse) -> Void] = []
+    private var cache: FiltersResponse? = nil
 
-    private init() {
+    public init() {
         AF.request("https://api.mixdrinks.org/meta/all")
-                .responseDecodable(of: MetaResponse.self) { response in
+                .responseDecodable(of: FiltersResponse.self) { response in
                     guard let value = response.value else {
                         fatalError("guard failure handling has not been implemented")
                     }
 
-                    self.callbacks.forEach { (closure: (MetaResponse) -> ()) in
+                    self.callbacks.forEach { (closure: (FiltersResponse) -> ()) in
                         closure(value)
                     }
                 }
     }
 
-    func addCallback(callback: @escaping (MetaResponse) -> Void) {
+    func addCallback(callback: @escaping (FiltersResponse) -> Void) {
         callbacks.append(callback)
+
+        if let cache = cache {
+            callback(cache)
+        }
     }
 }
 
-struct MetaResponse: Decodable {
-    let tags: [Int: String]
-    let goods: [Int: String]
-    let tools: [Int: String]
+struct FiltersResponse: Decodable {
+    let goods: [FilterItem]
+    let tags: [FilterItem]
+    let tools: [FilterItem]
+}
+
+struct FilterItem: Decodable {
+    let id: Int
+    let name: String
 }
