@@ -16,9 +16,15 @@ struct FilterView: View {
                         .padding(.vertical)
 
                 ForEach(viewModel.uiModel) { element in
-                    FilterGroupList(filterGroup: element, onFilterClick: { (id: Int) -> () in
-                        viewModel.filterClick(filterGroupId: element.id, filterId: id)
-                    }, onMoreLessClick: { filterGroupId in viewModel.moreLessClick(id: filterGroupId) })
+                    FilterGroupList(filterGroup: element,
+                            onFilterClick: { (id: Int) -> () in
+                                viewModel.filterClick(filterGroupId: element.id, filterId: id)
+                            },
+                            onMoreLessClick: { filterGroupId in viewModel.moreLessClick(id: filterGroupId) },
+                            onFilterGroupTextChange: { (id: Int, text: String) -> () in
+                                viewModel.filterGroupTextChange(id: id, text: text)
+                            }
+                    )
                 }
             }
         }
@@ -30,12 +36,23 @@ struct FilterGroupList: View {
     var filterGroup: FilterGroupUiModel
     var onFilterClick: (Int) -> Void
     var onMoreLessClick: (Int) -> Void
+    var onFilterGroupTextChange: (Int, String) -> Void
 
     var body: some View {
         Text(filterGroup.name)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 .font(.subheadline)
                 .padding(.horizontal)
+
+        TextField("Пошук", text: .init(
+                get: { () -> String in filterGroup.searchText },
+                set: { query in onFilterGroupTextChange(filterGroup.id, query) })
+        )
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .font(.subheadline)
+                .padding()
+                .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.2662717301)))
+                .cornerRadius(20)
 
         ForEach(filterGroup.filters) { filterItem in
             HStack {

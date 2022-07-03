@@ -16,6 +16,8 @@ final class FilterViewModel: ObservableObject {
 
     private var selected: SelectedFiltersState = [:]
 
+    private var searchGroupText: [Int: String] = [:]
+
     public init(
             filterDataRepository: FilterDataRepository,
             selectedFilterStorage: SelectedFilterStorage
@@ -35,16 +37,30 @@ final class FilterViewModel: ObservableObject {
 
     private func updateUi() {
         uiModel = filterData.map { filterGroup in
-            var filters: Array<FilterItemUiModel> = filterGroup.items.map { filterItem in
-                FilterItemUiModel(id: filterItem.id, name: filterItem.name, isSelected: selectedFilterStorage.isSelected(filterGroupId: filterGroup.id, filterId: filterItem.id))
-            }
+            var filters: Array<FilterItemUiModel> = filterGroup.items
+                    .filter { item in
+                        let filterQuery = searchGroupText[filterGroup.id] ?? ""
+                        if (filterQuery.isEmpty) {
+                            return true
+                        } else {
+                            return item.name.lowercased().contains(filterQuery.lowercased())
+                        }
+                    }
+                    .map { filterItem in
+                        FilterItemUiModel(id: filterItem.id, name: filterItem.name, isSelected: selectedFilterStorage.isSelected(filterGroupId: filterGroup.id, filterId: filterItem.id))
+                    }
 
             if (!expandGroups.contains(filterGroup.id)) {
-                filters = filters[range: 0..<5]
+                filters = filters[range: 0..<min(filters.count, 5)]
             }
 
             return FilterGroupUiModel(id: filterGroup.id, name: filterGroup.name, filters: filters)
         }
+    }
+
+    func filterGroupTextChange(id: Int, text: String) {
+        searchGroupText[id] = text
+        updateUi()
     }
 
     func moreLessClick(id: Int) {
@@ -68,6 +84,7 @@ struct FilterGroupUiModel: Identifiable, Decodable {
     var id: Int
     var name: String
     var filters: [FilterItemUiModel]
+    var searchText: String = ""
 }
 
 struct FilterItemUiModel: Identifiable, Decodable {
@@ -79,11 +96,11 @@ struct FilterItemUiModel: Identifiable, Decodable {
 extension Array {
 
     subscript(range r: Range<Int>) -> Array {
-        return Array(self[r])
+        Array(self[r])
     }
 
 
     subscript(range r: ClosedRange<Int>) -> Array {
-        return Array(self[r])
+        Array(self[r])
     }
 }
