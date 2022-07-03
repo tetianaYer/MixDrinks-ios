@@ -4,54 +4,41 @@
 
 import Foundation
 
+typealias SelectedFiltersSate = [Int: [Int]]
+
 class SelectedFilterStorage {
 
-    private var tagIds: [Int] = []
-    private var toolIds: [Int] = []
-    private var goodIds: [Int] = []
+    private var state: SelectedFiltersSate = [:]
 
-    private var callbacks: [(SelectedFilters) -> Void] = []
+    private var callbacks: [(SelectedFiltersSate) -> Void] = []
 
-    func tagChange(id: Int) {
-        if (tagIds.contains(id)) {
-            tagIds.removeAll { existId in
-                existId == id
+    func change(filterGroupId: Int, filterId: Int) {
+        var filters: [Int] = state[filterGroupId] ?? []
+
+        if (filters.contains(filterId)) {
+            filters.removeAll { existId in
+                existId == filterId
             }
         } else {
-            tagIds.append(id)
+            filters.append(filterId)
         }
+
+        state[filterGroupId] = filters
+
         notify()
     }
 
-    func goodChange(id: Int) {
-        if (goodIds.contains(id)) {
-            goodIds.removeAll { existId in
-                existId == id
-            }
-        } else {
-            goodIds.append(id)
-        }
-        notify()
-    }
-
-    func addCallback(callback: @escaping (SelectedFilters) -> Void) {
+    func addCallback(callback: @escaping (SelectedFiltersSate) -> Void) {
         callbacks.append(callback)
     }
 
-    func get() -> SelectedFilters {
-        SelectedFilters(tagIds: tagIds, toolId: toolIds, goodId: goodIds)
+    func get() -> SelectedFiltersSate {
+        state
     }
 
     private func notify() {
-        callbacks.forEach { (closure: (SelectedFilters) -> ()) in
-            closure(SelectedFilters(tagIds: tagIds, toolId: toolIds, goodId: goodIds))
+        callbacks.forEach { (closure: (SelectedFiltersSate) -> ()) in
+            closure(state)
         }
     }
-
-}
-
-struct SelectedFilters {
-    let tagIds: [Int]
-    let toolId: [Int]
-    let goodId: [Int]
 }

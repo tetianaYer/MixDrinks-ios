@@ -8,13 +8,13 @@ final class FilterViewModel: ObservableObject {
 
     private var selectedFilterStorage: SelectedFilterStorage
 
-    @Published var tagUiModels: [FilterItemUiModel] = []
-    @Published var goodUiModels: [FilterItemUiModel] = []
+    @Published var uiModel: [FilterListUiModel] = []
 
-    private var tags: [FilterItem] = []
-    private var goods: [FilterItem] = []
+    private var expandList: [Int] = []
 
-    private var selected: SelectedFilters = SelectedFilters(tagIds: [], toolId: [], goodId: [])
+    private var filterData: Filters = []
+
+    private var selected: SelectedFiltersSate = [:]
 
     public init(
             filterDataRepository: FilterDataRepository,
@@ -23,8 +23,7 @@ final class FilterViewModel: ObservableObject {
         self.selectedFilterStorage = selectedFilterStorage
 
         filterDataRepository.addCallback { metaInfo in
-            self.tags = metaInfo.tags
-            self.goods = metaInfo.goods
+            self.filterData = metaInfo
             self.updateUi()
         }
 
@@ -35,30 +34,32 @@ final class FilterViewModel: ObservableObject {
     }
 
     private func updateUi() {
-        tagUiModels = tags.map { tag in
-            FilterItemUiModel(
-                    id: tag.id,
-                    name: tag.name,
-                    isSelected: selected.tagIds.contains(tag.id)
-            )
-        }
-
-        goodUiModels = goods.map { goods in
-            FilterItemUiModel(
-                    id: goods.id,
-                    name: goods.name,
-                    isSelected: selected.goodId.contains(goods.id)
-            )
+        uiModel = filterData.map { filterGroup in
+            FilterListUiModel(id: filterGroup.id, name: filterGroup.name, filters: filterGroup.items.map { filterItem in
+                FilterItemUiModel(id: filterItem.id, name: filterItem.name, isSelected: false)
+            })
         }
     }
 
-    func tagClick(tagId: Int) {
-        selectedFilterStorage.tagChange(id: tagId)
+    func moreLessClick(id: Int) {
+        if (expandList.contains(id)) {
+            expandList.removeAll { existId in
+                existId == id
+            }
+        } else {
+            expandList.append(id)
+        }
     }
 
-    func goodClick(goodId: Int) {
-        selectedFilterStorage.goodChange(id: goodId)
+    func filterClick(filterGroupId: Int, filterId: Int) {
+        selectedFilterStorage.change(filterGroupId: filterGroupId, filterId: filterId)
     }
+}
+
+struct FilterListUiModel: Identifiable, Decodable {
+    var id: Int
+    var name: String
+    var filters: [FilterItemUiModel]
 }
 
 struct FilterItemUiModel: Identifiable, Decodable {

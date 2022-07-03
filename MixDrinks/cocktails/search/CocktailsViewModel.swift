@@ -25,19 +25,10 @@ final class CocktailsViewModel: ObservableObject {
     func fetchCocktails() {
         state = CocktailListUiModel.loading
         let parameters: Parameters = [
-            "query": query,
-            "limit": 20,
-            "tags": selectedFilterStorage.get().tagIds.map { item in
-                        String(item)
-                    }
-                    .joined(separator: ","),
-            "goods": selectedFilterStorage.get().goodId.map { id in
-                        String(id)
-                    }
-                    .joined(separator: ",")
+            "page": 0,
         ]
 
-        AF.request("https://api.mixdrinks.org/cocktails/filter",
+        AF.request("https://api.mixdrinks.org/v2/search/cocktails",
                         method: .get,
                         parameters: parameters,
                         encoding: URLEncoding(destination: .queryString))

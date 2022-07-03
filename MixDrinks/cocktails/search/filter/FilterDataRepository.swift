@@ -5,26 +5,28 @@
 import Foundation
 import Alamofire
 
+typealias Filters = [FilterGroup]
+
 class FilterDataRepository {
 
-    private var callbacks: [(FiltersResponse) -> Void] = []
+    private var callbacks: [(Filters) -> Void] = []
 
-    private var cache: FiltersResponse? = nil
+    private var cache: Filters? = nil
 
     public init() {
-        AF.request("https://api.mixdrinks.org/meta/all")
-                .responseDecodable(of: FiltersResponse.self) { response in
+        AF.request("https://api.mixdrinks.org/v2/filters")
+                .responseDecodable(of: Filters.self) { response in
                     guard let value = response.value else {
                         fatalError("guard failure handling has not been implemented")
                     }
 
-                    self.callbacks.forEach { (closure: (FiltersResponse) -> ()) in
+                    self.callbacks.forEach { (closure: (Filters) -> ()) in
                         closure(value)
                     }
                 }
     }
 
-    func addCallback(callback: @escaping (FiltersResponse) -> Void) {
+    func addCallback(callback: @escaping (Filters) -> Void) {
         callbacks.append(callback)
 
         if let cache = cache {
@@ -33,10 +35,11 @@ class FilterDataRepository {
     }
 }
 
-struct FiltersResponse: Decodable {
-    let goods: [FilterItem]
-    let tags: [FilterItem]
-    let tools: [FilterItem]
+struct FilterGroup: Decodable {
+    let id: Int
+    let queryName: String
+    let name: String
+    let items: [FilterItem]
 }
 
 struct FilterItem: Decodable {
