@@ -24,13 +24,13 @@ struct CocktailsView: View {
                             .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.2662717301)))
                             .cornerRadius(20)
                             .onChange(of: viewModel.query) { text in
-                                viewModel.fetchCocktails()
+                                //viewModel.fetchCocktails()
                             }
 
                     Button(action: { showingFilter.toggle() }) {
                         Image(systemName: "line.3.horizontal.decrease.circle")
                     }
-                            .sheet(isPresented: $showingFilter, onDismiss: { viewModel.fetchCocktails() }) {
+                            .sheet(isPresented: $showingFilter, onDismiss: { /*viewModel.fetchCocktails()*/ }) {
                                 VStack {
                                     FilterView()
                                     Button(action: { showingFilter = false }) {

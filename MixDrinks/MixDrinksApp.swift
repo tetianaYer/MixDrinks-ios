@@ -14,16 +14,18 @@ struct MixDrinksApp: App {
     var selectedFilterStorage: SelectedFilterStorage
     var cocktailsViewModel: CocktailsViewModel
     var filterViewModel: FilterViewModel
+    var filterDataRepository: FilterDataRepository
 
     init() {
         selectedFilterStorage = SelectedFilterStorage()
+        filterDataRepository = FilterDataRepository()
 
         cocktailsViewModel = CocktailsViewModel(
-                selectedFilterStorage: selectedFilterStorage
+                selectedFilterStorage: selectedFilterStorage, filterDataRepository: filterDataRepository
         )
 
         filterViewModel = FilterViewModel(
-                filterDataRepository: FilterDataRepository(),
+                filterDataRepository: filterDataRepository,
                 selectedFilterStorage: selectedFilterStorage
         )
     }

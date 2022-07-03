@@ -4,13 +4,13 @@
 
 import Foundation
 
-typealias SelectedFiltersSate = [Int: [Int]]
+typealias SelectedFiltersState = [Int: [Int]]
 
 class SelectedFilterStorage {
 
-    private var state: SelectedFiltersSate = [:]
+    private var state: SelectedFiltersState = [:]
 
-    private var callbacks: [(SelectedFiltersSate) -> Void] = []
+    private var callbacks: [(SelectedFiltersState) -> Void] = []
 
     func change(filterGroupId: Int, filterId: Int) {
         var filters: [Int] = state[filterGroupId] ?? []
@@ -28,16 +28,22 @@ class SelectedFilterStorage {
         notify()
     }
 
-    func addCallback(callback: @escaping (SelectedFiltersSate) -> Void) {
+    func addCallback(callback: @escaping (SelectedFiltersState) -> Void) {
         callbacks.append(callback)
+
+        callback(state)
     }
 
-    func get() -> SelectedFiltersSate {
+    func isSelected(filterGroupId: Int, filterId: Int) -> Bool {
+        (state[filterGroupId] ?? []).contains(filterId)
+    }
+
+    func get() -> SelectedFiltersState {
         state
     }
 
     private func notify() {
-        callbacks.forEach { (closure: (SelectedFiltersSate) -> ()) in
+        callbacks.forEach { (closure: (SelectedFiltersState) -> ()) in
             closure(state)
         }
     }

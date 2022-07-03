@@ -14,7 +14,7 @@ final class FilterViewModel: ObservableObject {
 
     private var filterData: Filters = []
 
-    private var selected: SelectedFiltersSate = [:]
+    private var selected: SelectedFiltersState = [:]
 
     public init(
             filterDataRepository: FilterDataRepository,
@@ -35,9 +35,11 @@ final class FilterViewModel: ObservableObject {
 
     private func updateUi() {
         uiModel = filterData.map { filterGroup in
-            FilterListUiModel(id: filterGroup.id, name: filterGroup.name, filters: filterGroup.items.map { filterItem in
-                FilterItemUiModel(id: filterItem.id, name: filterItem.name, isSelected: false)
-            })
+            let filters = filterGroup.items.map { filterItem in
+                FilterItemUiModel(id: filterItem.id, name: filterItem.name, isSelected: selectedFilterStorage.isSelected(filterGroupId: filterGroup.id, filterId: filterItem.id))
+            }
+
+            return FilterListUiModel(id: filterGroup.id, name: filterGroup.name, filters: filters)
         }
     }
 
