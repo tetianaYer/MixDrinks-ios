@@ -6,7 +6,7 @@ import SwiftUI
 
 struct FilterView: View {
 
-    @EnvironmentObject var filterViewModel: FilterViewModel
+    @EnvironmentObject var viewModel: FilterViewModel
 
     var body: some View {
         ScrollView {
@@ -15,36 +15,36 @@ struct FilterView: View {
                         .font(.headline)
                         .padding(.vertical)
 
-                ForEach(filterViewModel.uiModel) { element in
-                    FilterList(name: element.name, filterItems: element.filters) { (id: Int) -> () in
-                        filterViewModel.filterClick(filterGroupId: element.id, filterId: id)
-                    }
+                ForEach(viewModel.uiModel) { element in
+                    FilterGroupList(filterGroup: element, onFilterClick: { (id: Int) -> () in
+                        viewModel.filterClick(filterGroupId: element.id, filterId: id)
+                    }, onMoreLessClick: { filterGroupId in viewModel.moreLessClick(id: filterGroupId) })
                 }
             }
         }
     }
 }
 
-struct FilterList: View {
+struct FilterGroupList: View {
 
-    var name: String
-    var filterItems: [FilterItemUiModel]
-    var onClick: (Int) -> Void
+    var filterGroup: FilterGroupUiModel
+    var onFilterClick: (Int) -> Void
+    var onMoreLessClick: (Int) -> Void
 
     var body: some View {
-        Text(name)
+        Text(filterGroup.name)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 .font(.subheadline)
                 .padding(.horizontal)
 
-        ForEach(filterItems) { tag in
+        ForEach(filterGroup.filters) { filterItem in
             HStack {
-                Toggle(tag.name, isOn: .init(
+                Toggle(filterItem.name, isOn: .init(
                         get: {
-                            tag.isSelected
+                            filterItem.isSelected
                         },
                         set: { state in
-                            onClick(tag.id)
+                            onFilterClick(filterItem.id)
                         }
                 ))
                         .toggleStyle(CheckBoxToggleStyle.checkbox)
@@ -52,6 +52,10 @@ struct FilterList: View {
                         .padding(.horizontal)
             }
                     .padding(.vertical)
+        }
+
+        Button(action: { onMoreLessClick(filterGroup.id) }) {
+            Text("More/Less")
         }
     }
 }
