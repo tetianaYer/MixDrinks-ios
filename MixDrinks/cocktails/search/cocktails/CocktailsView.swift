@@ -30,24 +30,15 @@ struct CocktailsView: View {
                     Button(action: { showingFilter.toggle() }) {
                         Image(systemName: "line.3.horizontal.decrease.circle")
                     }
-                            .sheet(isPresented: $showingFilter, onDismiss: { /*viewModel.fetchCocktails()*/ }) {
+                            .sheet(isPresented: $showingFilter) {
                                 VStack {
-                                    FilterView()
-                                    Button(action: { showingFilter = false }) {
-                                        Text("Закрити")
-                                    }
+                                    FilterView(close: { showingFilter.toggle() })
                                 }
-
                             }
                 }
                         .padding(.horizontal)
 
-                switch viewModel.state {
-                case .content(let cocktails):
-                    CocktailsListContent(cocktails: cocktails)
-                case .loading:
-                    ProgressView()
-                }
+                CocktailsListContent(cocktails: viewModel.cocktails)
             }
                     .navigationBarHidden(true)
         }
@@ -57,7 +48,7 @@ struct CocktailsView: View {
 
 struct CocktailsListContent: View {
 
-    var cocktails: [Cocktail]
+    var cocktails: [CocktailUiModel]
 
     var body: some View {
         ScrollView {
@@ -75,7 +66,7 @@ struct CocktailsListContent: View {
 }
 
 struct CocktailCard: View {
-    var cocktail: Cocktail
+    var cocktail: CocktailUiModel
 
     var body: some View {
         HStack {

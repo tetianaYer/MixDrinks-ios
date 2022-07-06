@@ -6,7 +6,7 @@ import Foundation
 
 typealias SelectedFiltersState = [Int: [Int]]
 
-class SelectedFilterStorage {
+class FilterSelectedStorage {
 
     private var state: SelectedFiltersState = [:]
 

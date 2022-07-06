@@ -8,12 +8,23 @@ struct FilterView: View {
 
     @EnvironmentObject var viewModel: FilterViewModel
 
+    var close: () -> ()
+
     var body: some View {
         ScrollView {
             LazyVStack {
-                Text("Фільтр")
-                        .font(.headline)
-                        .padding(.vertical)
+                ZStack {
+                    Text("Фільтр")
+                            .font(.headline)
+                            .padding(.vertical)
+
+                    HStack {
+                        Spacer()
+                        Button(action: { close() }, label: { Text("Застосувати") })
+                    }
+                }
+                        .frame(width: .infinity)
+                        .padding(.horizontal)
 
                 ForEach(viewModel.uiModel) { element in
                     FilterGroupList(filterGroup: element,
@@ -61,7 +72,7 @@ struct FilterGroupList: View {
                             filterItem.isSelected
                         },
                         set: { state in
-                            onFilterClick(filterItem.id)
+                            onFilterClick(filterItem.filterId)
                         }
                 ))
                         .toggleStyle(CheckBoxToggleStyle.checkbox)
