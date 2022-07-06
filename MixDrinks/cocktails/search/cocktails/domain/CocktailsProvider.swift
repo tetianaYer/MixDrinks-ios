@@ -7,45 +7,74 @@ import Foundation
 class CocktailsProvider {
 
     private var callbacks: [([Cocktail]) -> Void] = []
+    private var lastCocktails: [Cocktail] = []
 
-    private var cocktails: [Cocktail] = []
     private var selectedFilters: SelectedFiltersState = [:]
 
-    public init(cocktailsDataSource: CocktailsDataSource,
+    private let dataSource: DataSource
+
+    public init(dataSource: DataSource,
                 filterSelectedStorage: FilterSelectedStorage) {
-        cocktailsDataSource.addCallback { cocktails in
-            self.cocktails = cocktails
-            self.notify()
-        }
+        self.dataSource = dataSource
 
         filterSelectedStorage.addCallback { state in
             self.selectedFilters = state
             self.notify()
         }
+        notify()
     }
 
     private func notify() {
-        let filteredCocktails = filterCocktails(cocktails: cocktails, selectedFilters: selectedFilters)
-        callbacks.forEach { callback in
-            callback(filteredCocktails)
-        }
-    }
+        lastCocktails = dataSource.getCocktails()
+                .filter { cocktail in
+                    let cocktailTags: [Int] = dataSource.getCocktailTagIds(cocktailId: cocktail.id)
 
-    private func filterCocktails(cocktails: [Cocktail], selectedFilters: [Int: [Int]]) {
-        let filteredCocktails = cocktails.filter { cocktail in
-            for (filterGroupId, filterId) in selectedFilters {
-                cocktail.name
-                if !filterValues.contains(cocktailFilters[filterId]) {
-                    return false
+                    let newTag = (selectedFilters[tagRelationId] ?? []).first { filterId in
+                        !cocktailTags.contains(filterId)
+                    }
+
+                    if (newTag != nil) {
+                        return false
+                    }
+
+                    let cocktailGoods: [Int] = dataSource.getCocktailGoodIds(cocktailId: cocktail.id)
+
+                    let newGood = (selectedFilters[goodRelationId] ?? []).first { filterId in
+                        !cocktailGoods.contains(filterId)
+                    }
+
+                    if (newGood != nil) {
+                        return false
+                    }
+
+                    let cocktailTools: [Int] = dataSource.getCocktailToolIds(cocktailId: cocktail.id)
+
+                    let newTool = (selectedFilters[toolRelationId] ?? []).first { filterId in
+                        !cocktailTools.contains(filterId)
+                    }
+
+                    if (newTool != nil) {
+                        return false
+                    }
+
+                    return true
                 }
-            }
-            return true
+                .map { cocktail -> Cocktail in
+                    Cocktail(id: cocktail.id, name: cocktail.name)
+                }
+
+        callbacks.forEach { callback in
+            callback(lastCocktails)
         }
-        return filteredCocktails
     }
 
     func addCallback(closure: @escaping ([Cocktail]) -> Void) {
         callbacks.append(closure)
-        closure(cocktails)
+        closure(lastCocktails)
     }
+}
+
+struct Cocktail {
+    let id: Int
+    let name: String
 }

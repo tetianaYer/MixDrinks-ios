@@ -28,7 +28,6 @@
 		55C87D7198A34B2387B3D029 /* CocktailDetailsAggregator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C87CD60AF66B3975717F00 /* CocktailDetailsAggregator.swift */; };
 		55C87D7BC490A571BA6C671B /* FilterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C879BF2867CDC99DF95258 /* FilterDataSource.swift */; };
 		55C87F597C315DCAA7369C3E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55C87F7ED89E359D1CB0A02A /* Preview Assets.xcassets */; };
-		55C87F7FAD375E6F4144A343 /* CocktailsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C8726497AF4A9C8AA81A1D /* CocktailsDataSource.swift */; };
 		55C87F8652FC30D81857CF34 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C8702468D1829E5A61D757 /* FilterView.swift */; };
 		55C87F8CC180DA455FCE767D /* FilterStateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C8778B42B0A38811C36D59 /* FilterStateProvider.swift */; };
 		62DC4CB42859FA0D007C7887 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 62DC4CB32859FA0D007C7887 /* Alamofire */; };
@@ -56,7 +55,6 @@
 		55C8704DAD15169D470CE77A /* MixDrinksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixDrinksApp.swift; sourceTree = "<group>"; };
 		55C87131E058DE0F633A6B09 /* CoctailDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoctailDetailViewModel.swift; path = cocktails/details/CoctailDetailViewModel.swift; sourceTree = "<group>"; };
 		55C87210B13DB41C7113D021 /* FilterSelectedStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterSelectedStorage.swift; path = cocktails/search/filter/data/FilterSelectedStorage.swift; sourceTree = "<group>"; };
-		55C8726497AF4A9C8AA81A1D /* CocktailsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CocktailsDataSource.swift; path = cocktails/search/cocktails/data/CocktailsDataSource.swift; sourceTree = "<group>"; };
 		55C8731834309EF95A5FEC3B /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckBox.swift; path = widget/checkbox/CheckBox.swift; sourceTree = "<group>"; };
 		55C8732E360409BF39876822 /* FilterExpandsStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterExpandsStorage.swift; path = cocktails/search/filter/data/FilterExpandsStorage.swift; sourceTree = "<group>"; };
 		55C874A0B2A92E459899FDCD /* CocktailsProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CocktailsProvider.swift; path = cocktails/search/cocktails/domain/CocktailsProvider.swift; sourceTree = "<group>"; };
@@ -129,7 +127,6 @@
 				55C876E47FB719C016D938A5 /* CocktailsViewModel.swift */,
 				55C8790F5CE4E4C8A1297136 /* CocktailsView.swift */,
 				55C874A0B2A92E459899FDCD /* CocktailsProvider.swift */,
-				55C8726497AF4A9C8AA81A1D /* CocktailsDataSource.swift */,
 			);
 			path = MixDrinks;
 			sourceTree = "<group>";
@@ -323,7 +320,6 @@
 				55C87CCECC017B690744C6FE /* CocktailsViewModel.swift in Sources */,
 				55C874E7C6BDEF51E4357651 /* CocktailsView.swift in Sources */,
 				55C8745032BB6E08211930A6 /* CocktailsProvider.swift in Sources */,
-				55C87F7FAD375E6F4144A343 /* CocktailsDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

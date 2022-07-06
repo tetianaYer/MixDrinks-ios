@@ -7,6 +7,10 @@ import Alamofire
 
 typealias Filters = [FilterGroupData]
 
+let goodRelationId = 1
+let toolRelationId = 2
+let tagRelationId = 3
+
 class FilterDataSource {
 
     private var dataSource: DataSource
@@ -18,17 +22,17 @@ class FilterDataSource {
     func getFilterGroups() -> [FilterGroupData] {
         [
             FilterGroupData(
-                    id: 1,
+                    id: goodRelationId,
                     queryName: "goods",
                     name: "Інгрідієнти",
                     items: getGoodsFilterItems()),
             FilterGroupData(
-                    id: 2,
+                    id: tagRelationId,
                     queryName: "tags",
                     name: "Інше",
                     items: getTagFilterItems()),
             FilterGroupData(
-                    id: 3,
+                    id: toolRelationId,
                     queryName: "tools",
                     name: "Інструменти",
                     items: getToolsFilterItems()),
@@ -42,7 +46,7 @@ class FilterDataSource {
     }
 
     private func getToolsFilterItems() -> [FilterItemData] {
-        dataSource.getGoods().map { item in
+        dataSource.getTools().map { item in
             FilterItemData(id: item.id, name: item.name)
         }
     }

@@ -28,7 +28,7 @@ struct StartScreen: View {
 
             let cocktailsViewModel = CocktailsViewModel(
                     cocktailsProvider: CocktailsProvider(
-                            cocktailsDataSource: CocktailsDataSource(dataSource: dataSource),
+                            dataSource: dataSource,
                             filterSelectedStorage: filterSelectedStorage
                     )
             )
