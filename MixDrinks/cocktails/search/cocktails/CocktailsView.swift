@@ -35,6 +35,7 @@ struct CocktailsView: View {
                                     FilterView(close: { showingFilter.toggle() })
                                 }
                             }
+                            .preferredColorScheme(.light)
                 }
                         .padding(.horizontal)
 

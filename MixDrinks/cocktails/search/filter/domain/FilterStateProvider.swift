@@ -7,6 +7,7 @@ import Foundation
 
 class FilterStateProvider {
 
+    private let dataSource: DataSource
     private let filterSearchStorage: FilterSearchStorage
     private let filterExpandsStorage: FilterExpandsStorage
     private let filterSelectedStorage: FilterSelectedStorage
@@ -22,11 +23,13 @@ class FilterStateProvider {
     private var lastState: [FilterGroup]? = nil
 
     public init(
+            dataSource: DataSource,
             filterSearchStorage: FilterSearchStorage,
             filterDataSource: FilterDataSource,
             filterExpandsStorage: FilterExpandsStorage,
             filterSelectedStorage: FilterSelectedStorage
     ) {
+        self.dataSource = dataSource
         self.filterSearchStorage = filterSearchStorage
         self.filterExpandsStorage = filterExpandsStorage
         self.filterSelectedStorage = filterSelectedStorage
@@ -60,12 +63,36 @@ class FilterStateProvider {
                 }
             }
 
-            filterToShow = isExpanded ? group.items : group.items[range: 0...min(group.items.count, 5)]
-
-            let items = filterToShow.map { (item) -> FilterItemUiModel in
+            var items = filterToShow.map { (item) -> FilterItem in
                 let isSelected = selectedFilters[group.id]?.contains(item.id) ?? false
-                return FilterItemUiModel(filterId: item.id, name: item.name, isSelected: isSelected)
+                var futureCount = 0
+
+                /*if (!isSelected) {
+                    futureCount = dataSource.getCocktailsByFilters(selectedFilters: getFutureFilters(group: group.id, filterId: item.id)).count
+                }*/
+
+                return FilterItem(
+                        id: item.id,
+                        name: item.name,
+                        isSelected: isSelected,
+                        futureCount: futureCount
+                )
             }
+
+            items = items.sorted { (lhs, rhs) in
+                if (lhs.isSelected == rhs.isSelected) {
+                    return lhs.futureCount > rhs.futureCount
+                } else {
+                    return lhs.isSelected
+                }
+            }
+
+            let itemToShowCount = items.filter { (item) -> Bool in
+                        item.isSelected
+                    }
+                    .count + 5
+
+            items = isExpanded ? items : items[range: 0...min(group.items.count, itemToShowCount)]
 
             return FilterGroup(id: group.id, name: group.name, filters: items, searchText: query ?? "", isExpanded: isExpanded)
         }
@@ -73,6 +100,16 @@ class FilterStateProvider {
         callbacks.forEach { (closure: ([FilterGroup]) -> ()) in
             closure(lastState!)
         }
+    }
+
+    private func getFutureFilters(group: Int, filterId: Int) -> SelectedFiltersState {
+        var futureState = selectedFilters
+        var selectedFilter = futureState[group] ?? []
+
+        selectedFilter.append(filterId)
+        futureState[group] = selectedFilter
+
+        return futureState
     }
 
     func addCallback(callback: @escaping ([FilterGroup]) -> Void) {
@@ -87,15 +124,16 @@ class FilterStateProvider {
 struct FilterGroup {
     var id: Int
     var name: String
-    var filters: [FilterItemUiModel]
+    var filters: [FilterItem]
     var searchText: String = ""
     var isExpanded: Bool
 }
 
 struct FilterItem {
-    var id: Int
-    var name: String
-    var isSelected: Bool
+    let id: Int
+    let name: String
+    let isSelected: Bool
+    let futureCount: Int
 }
 
 extension Array {

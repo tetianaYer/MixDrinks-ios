@@ -78,6 +78,12 @@ struct FilterGroupList: View {
                         .toggleStyle(CheckBoxToggleStyle.checkbox)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal)
+
+                if filterItem.futureCount > 0 {
+                    Text("\(filterItem.futureCount)")
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .padding(.horizontal)
+                }
             }
                     .padding(.vertical)
         }

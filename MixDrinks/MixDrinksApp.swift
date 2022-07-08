@@ -13,7 +13,8 @@ struct MixDrinksApp: App {
 
     var body: some Scene {
         WindowGroup {
-            StartScreen()
+             StartScreen()
+                    .environment(\.colorScheme, .light)
         }
     }
 }

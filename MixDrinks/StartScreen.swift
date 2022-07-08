@@ -38,6 +38,7 @@ struct StartScreen: View {
                     filterSearchStorage: filterSearchStorage,
                     filterExpandsStorage: filterExpandsStorage,
                     filterStateProvider: FilterStateProvider(
+                            dataSource: dataSource,
                             filterSearchStorage: filterSearchStorage,
                             filterDataSource: filterDataSource,
                             filterExpandsStorage: filterExpandsStorage,
