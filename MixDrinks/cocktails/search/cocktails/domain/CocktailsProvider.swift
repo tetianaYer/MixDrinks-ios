@@ -27,7 +27,7 @@ class CocktailsProvider {
     private func notify() {
         lastCocktails = dataSource.getCocktails()
                 .filter { cocktail in
-                    let cocktailTags: [Int] = dataSource.getCocktailTagIds(cocktailId: cocktail.id)
+                    let cocktailTags: [Int] = cocktail.relation.tagIds
 
                     let newTag = (selectedFilters[tagRelationId] ?? []).first { filterId in
                         !cocktailTags.contains(filterId)
@@ -37,7 +37,7 @@ class CocktailsProvider {
                         return false
                     }
 
-                    let cocktailGoods: [Int] = dataSource.getCocktailGoodIds(cocktailId: cocktail.id)
+                    let cocktailGoods: [Int] = cocktail.relation.goodIds
 
                     let newGood = (selectedFilters[goodRelationId] ?? []).first { filterId in
                         !cocktailGoods.contains(filterId)
@@ -47,7 +47,7 @@ class CocktailsProvider {
                         return false
                     }
 
-                    let cocktailTools: [Int] = dataSource.getCocktailToolIds(cocktailId: cocktail.id)
+                    let cocktailTools: [Int] = cocktail.relation.toolIds
 
                     let newTool = (selectedFilters[toolRelationId] ?? []).first { filterId in
                         !cocktailTools.contains(filterId)

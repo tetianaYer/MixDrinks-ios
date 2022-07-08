@@ -96,6 +96,13 @@ struct SnapShotCocktail: Decodable {
     let id: Int
     let name: String
     let steps: [String]
+    let relation: SnapRelation
+}
+
+struct SnapRelation: Decodable {
+    let tagIds: [Int]
+    let goodIds: [Int]
+    let toolIds: [Int]
 }
 
 struct SnapShotItem: Decodable {
