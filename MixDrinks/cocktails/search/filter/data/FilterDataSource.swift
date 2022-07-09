@@ -23,17 +23,14 @@ class FilterDataSource {
         [
             FilterGroupData(
                     id: goodRelationId,
-                    queryName: "goods",
                     name: "Інгрідієнти",
                     items: getGoodsFilterItems()),
             FilterGroupData(
                     id: tagRelationId,
-                    queryName: "tags",
                     name: "Інше",
                     items: getTagFilterItems()),
             FilterGroupData(
                     id: toolRelationId,
-                    queryName: "tools",
                     name: "Інструменти",
                     items: getToolsFilterItems()),
         ]
@@ -60,7 +57,6 @@ class FilterDataSource {
 
 struct FilterGroupData: Decodable {
     let id: Int
-    let queryName: String
     let name: String
     let items: [FilterItemData]
 }

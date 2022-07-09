@@ -35,7 +35,13 @@ final class FilterViewModel: ObservableObject {
                     id: group.id,
                     name: group.name,
                     filters: group.filters.map { model -> FilterItemUiModel in
-                        FilterItemUiModel(filterId: model.id, name: model.name, isSelected: model.isSelected, futureCount: model.futureCount)
+                        FilterItemUiModel(
+                                filterId: model.id,
+                                name: model.name,
+                                isSelected: model.isSelected,
+                                isEnable: !model.isSelected && model.futureCount == 0,
+                                futureCount: model.futureCount
+                        )
                     }, filterGroupButtonState: .less
             )
         }
@@ -72,6 +78,7 @@ struct FilterItemUiModel: Identifiable {
     let filterId: Int
     let name: String
     let isSelected: Bool
+    let isEnable: Bool
     let futureCount: Int
 }
 

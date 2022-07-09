@@ -18,14 +18,11 @@ struct CocktailsView: View {
         NavigationView {
             VStack {
                 HStack {
-                    TextField("Search", text: $viewModel.query)
+                    Text("Коктейлі")
                             .font(.body)
                             .padding()
-                            .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0.2662717301)))
-                            .cornerRadius(20)
-                            .onChange(of: viewModel.query) { text in
-                                //viewModel.fetchCocktails()
-                            }
+
+                    Spacer()
 
                     Button(action: { showingFilter.toggle() }) {
                         Image(systemName: "line.3.horizontal.decrease.circle")

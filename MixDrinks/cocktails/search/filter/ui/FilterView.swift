@@ -85,6 +85,7 @@ struct FilterGroupList: View {
                             .padding(.horizontal)
                 }
             }
+                    .disabled(filterItem.isEnable)
                     .padding(.vertical)
         }
 

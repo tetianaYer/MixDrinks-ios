@@ -38,20 +38,35 @@ class FilterStateProvider {
 
         filterExpandsStorage.addCallback { expandGroups in
             self.expandedGroups = expandGroups
-            self.notify()
+            self.recalculate()
         }
         filterSelectedStorage.addCallback { state in
             self.selectedFilters = state
-            self.notify()
+            self.recalculate()
         }
         filterSearchStorage.addCallback { dictionary in
             self.queries = dictionary
-            self.notify()
+            self.recalculate()
+        }
+    }
+
+    private func recalculate() {
+        Task {
+            lastState = await getNewState(withCount: false)
+            notify()
+            lastState = await getNewState(withCount: true)
+            notify()
         }
     }
 
     private func notify() {
-        lastState = filterGroups.map { (group) -> FilterGroup in
+        callbacks.forEach { (closure: ([FilterGroup]) -> ()) in
+            closure(lastState!)
+        }
+    }
+
+    private func getNewState(withCount: Bool) async -> [FilterGroup] {
+        filterGroups.map { (group) -> FilterGroup in
             let isExpanded = expandedGroups.contains(group.id)
 
             var filterToShow = group.items
@@ -67,9 +82,9 @@ class FilterStateProvider {
                 let isSelected = selectedFilters[group.id]?.contains(item.id) ?? false
                 var futureCount = 0
 
-                /*if (!isSelected) {
+                if (!isSelected && withCount) {
                     futureCount = dataSource.getCocktailsByFilters(selectedFilters: getFutureFilters(group: group.id, filterId: item.id)).count
-                }*/
+                }
 
                 return FilterItem(
                         id: item.id,
@@ -95,10 +110,6 @@ class FilterStateProvider {
             items = isExpanded ? items : items[range: 0...min(group.items.count, itemToShowCount)]
 
             return FilterGroup(id: group.id, name: group.name, filters: items, searchText: query ?? "", isExpanded: isExpanded)
-        }
-
-        callbacks.forEach { (closure: ([FilterGroup]) -> ()) in
-            closure(lastState!)
         }
     }
 

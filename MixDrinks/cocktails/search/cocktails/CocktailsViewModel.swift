@@ -8,8 +8,6 @@ import Alamofire
 
 final class CocktailsViewModel: ObservableObject {
 
-    @Published var query: String = ""
-
     @Published var cocktails: [CocktailUiModel] = []
 
     private var cocktailsProvider: CocktailsProvider
