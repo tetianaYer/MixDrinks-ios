@@ -1,6 +1,6 @@
 # The MixDrinks app
 
-#### The application provide an information about cocktails and short steps for cook the cocktails. The application also provide a list of goods and tools which you need to cock the cocktail.
+#### The application provides information about cocktails and short steps for making the cocktails. The application also lists the ingredients and tools you need to make the cocktail.
 
 ## Download app
 
@@ -13,4 +13,4 @@
 
 ### Work with repo
 
-App use the MVVM ui pattern. All object creates into application. 
+The app uses a MVVM ui pattern. All objects created in the application. 
